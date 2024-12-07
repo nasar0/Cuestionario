@@ -24,16 +24,20 @@
             foreach ($numpreg as $num) {
                 echo  $arraypreg[$num];
                 ?>
-                <div class="input-boxD">
-                    <input type="text" placeholder="Respuesta" name="respuesta[<?php echo $num; ?>]" require>
-                    <i class='bx bx-user'></i>
-                </div>
+                <form action="" method="post">
+                    <div class="input-boxD">
+                        <input type="text" placeholder="Respuesta" name="respuesta<?php echo $num;?>" require>
+                        <i class='bx bx-user'></i>
+                    </div>
+                </form>
                 <?php
             }
             ?>
             <input type="submit" class="btn" name="respuesta" value="Iniciar">
             <?php
-            
+            foreach ($_POST as $key => $value) {
+                echo $key."".$value;
+            }
 
         }else{
             ?>
@@ -54,27 +58,6 @@
     ?>
 </body>
 </html>
-
-<?php
-$numpreg = []; // Inicializar el array vacío
-
-// Bucle externo para generar 5 números aleatorios
-for ($i = 0; $i < 5; $i++) {
-    $numAleatorio = mt_rand(1, 10); // Generar un número aleatorio entre 1 y 10
-
-    // Comprobar si el número ya existe en el array $numpreg
-    while (in_array($numAleatorio, $numpreg)) {
-        // Si el número aleatorio ya existe, generamos uno nuevo
-        $numAleatorio = mt_rand(1, 10);
-    }
-
-    // Almacenar el número aleatorio en el array
-    $numpreg[] = $numAleatorio;
-}
-
-// Mostrar el resultado
-print_r($numpreg);
-?>
 
 
 
