@@ -17,7 +17,10 @@
             ?>
             <div class="container">
                 <div class="wrapper">
-                    <form action="" method="post" id="registro">
+                    
+                </div>
+            </div>
+            <form action="" method="post" id="registro">
                         <h1>login</h1>
                         <div class="input-box">
                             <input type="text" placeholder="Usuario" name="name" require>
@@ -25,8 +28,6 @@
                         </div>
                         <input type="submit" class="btn" name="env" value="Iniciar">
                     </form>
-                </div>
-            </div>
             <?php
         }
     ?>

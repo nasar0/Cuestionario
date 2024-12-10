@@ -13,18 +13,17 @@
             $this->norespuestas = $norespuestas;
         }
         public function getDatos(){
-            $sentencia = "SELECT * FROM preguntas";
+            $numAleatorio = mt_rand(1, 10);
+            $sentencia = "SELECT * FROM preguntas where id=$numAleatorio";
             $consulta = $this->db->prepare($sentencia);
             $consulta->bind_result($this->id, $this->pregunta, $this->respuesta, $this->norespuestas);
             $consulta->execute();
-            $preguntas = []; 
             while ($consulta->fetch()) {
-                $preguntas[] = $this->__toString(); 
+                return $this->__toString(); 
             }
-            return $preguntas; 
         }
         public function __toString() {
-            return $this->pregunta . "<br>";
+            return $this->pregunta .",".$this->id."<br>";
         }
         public function comprobar($texto,$idU){
             $sentencia = "SELECT respuesta FROM preguntas WHERE id = ?;";
