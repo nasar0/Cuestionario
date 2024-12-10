@@ -1,5 +1,5 @@
 <?php
-    class pregunta{
+    class preguntas{
         private $db;
         private $id;
         private $pregunta;
@@ -13,20 +13,28 @@
             $this->norespuestas = $norespuestas;
         }
         public function getDatos(){
-            $sentencia = "select * from pregunta";
+            $sentencia = "SELECT * FROM preguntas";
             $consulta = $this->db->prepare($sentencia);
-            $consulta->bind_result($this->id,$this->pregunta,$this->respuesta,$this->norespuestas)
+            $consulta->bind_result($this->id, $this->pregunta, $this->respuesta, $this->norespuestas);
             $consulta->execute();
+            $preguntas = []; 
+            while ($consulta->fetch()) {
+                $preguntas[] = $this->__toString(); 
+            }
+            return $preguntas; 
+        }
+        public function __toString() {
+            return $this->pregunta . "<br>";
         }
         public function comprobar($texto,$idU){
             $sentencia = "SELECT respuesta FROM preguntas WHERE id = ?;";
             $consulta = $this->db->prepare($sentencia);
             if ($consulta) {
                 $consulta->bind_param("i", $idU); 
-                $consulta->bind_result($this->respuesta)
+                $consulta->bind_result($this->respuesta);
                 $consulta->execute();
-                if ($consulta->fetch() ) {
-                   return $result = strcmp($texto, $this->resultado) == 0 ? true : false;  
+                if ($consulta->fetch()) {
+                   return $result = strcmp($texto, $this->respuesta) == 0 ? true : false;  
                 }
             }    
         }
