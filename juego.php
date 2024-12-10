@@ -42,7 +42,6 @@
                     <input type="submit" class="btn" name="env" value="Iniciar">
                 </form>';
         }
-        echo "hola";
     ?>
     
 </body>
