@@ -13,54 +13,76 @@
         require_once "preguntas.php";
         $db = new mysqli('localhost', 'root', '', 'cuestionario');
         $pg= new preguntas($db);
-        $arraypreg = [] ;
+        $db->set_charset("utf8");
+        $arraypreg = $pg->getDatos() ;
+        $numpreg = [];
         $cont=0;
         for ($i = 0; $i < 5; $i++) {
-            array_push($arraypreg, $pg->getDatos());
+            do {
+                $numAleatorio = mt_rand(0, 9);
+            } while (in_array($numAleatorio, $numpreg)); 
+            array_push($numpreg, $numAleatorio);
         }
+
+        
         if (isset($_POST["env"])){
             $pregunta= explode(",",$_POST["pregunta"]);
+            echo $pregunta[0];
+            echo $pregunta[1];
+            echo $_POST["idPreg"];
             $comprobar =$pg->comprobar($_POST["rsp"],$pregunta[1]);
             if ($comprobar==true) {
-                if (isset($_POST["env1"])){
-                    $pregunta = explode(",",$_POST["pregunta"]);
-                    $comprobar = $pg->comprobar($_POST["rsp"],$pregunta[1]);
-                    if ($comprobar==true) {
-                        
-                    }
-                    if ($comprobar==false) {
-                        
-                    }
-                }else{
-                    echo "preg2";
-                    echo '<div class="container">
-                        <div class="wrapper">
-                            <form action="" method="post" id="registro">
-                                <label for="">'. explode(",",$arraypreg[$cont])[0] . '<label><br>
-                                <input type="text" placeholder="respuesta" name="rsp">
-                                <input type="submit" class="btn" name="env1" value="Responder">
-                                <input type="hidden" name="pregunta" value="' .  $arraypreg[$cont] . '">
-                            <form>
-                        </div>
-                    </div>';
-                }
+                echo "hola";
             }
             if ($comprobar==false) {
-                echo "adios";
+                echo "adio";
             }
-        }else{
-            echo "preg1";
-            echo '<div class="container">
+        }else {
+                echo '<div class="container">
                 <div class="wrapper">
                     <form action="" method="post" id="registro">
-                        <label for="">'. explode(",",$arraypreg[$cont])[0] . '<label><br>
+                        <label for="">'. explode(",",$arraypreg[$numpreg[$cont]])[0] . '<label><br>
                         <input type="text" placeholder="respuesta" name="rsp">
                         <input type="submit" class="btn" name="env" value="Responder">
-                        <input type="hidden" name="pregunta" value="' .  $arraypreg[$cont] . '">
+                        <input type="hidden" name="pregunta" value="' .$arraypreg[$numpreg[$cont]]. '">
+                        <input type="hidden" name="idPreg" value="' .explode(",",$arraypreg[$numpreg[$cont]])[1] . '">
                     <form>
                 </div>
-            </div>';
-        }
+             </div>';
+            }
+
+
+        // if (isset($_POST["env"])){
+        //     $pregunta= explode(",",$_POST["pregunta"]);
+        //     $comprobar =$pg->comprobar($_POST["rsp"],$pregunta[1]);
+        //     if ($comprobar==true) {
+                
+        //     }
+        //     if ($comprobar==false) {
+        //         echo '<div class="container">
+        //         <div class="wrapper">
+        //             <form action="" method="post" id="registro">
+        //                 <label for="">'. explode(",",$arraypreg[$cont])[0] . '<label><br>
+        //                 <input type="text" placeholder="respuesta" name="rsp">
+        //                 <input type="submit" class="btn" name="env" value="Responder">
+        //                 <input type="hidden" name="pregunta" value="' .  $arraypreg[$cont] . '">
+        //             <form>
+        //         </div>
+        //     </div>'´;
+        //     }
+        // }else{
+        //     echo "preg1";
+        //     echo '<div class="container">
+        //         <div class="wrapper">
+        //             <form action="" method="post" id="registro">
+        //                 <label for="">'. explode(",",$arraypreg[$cont])[0] . '<label><br>
+        //                 <input type="text" placeholder="respuesta" name="rsp">
+        //                 <input type="submit" class="btn" name="env" value="Responder">
+        //                 <input type="hidden" name="pregunta" value="' .  $arraypreg[$cont] . '">
+        //             <form>
+        //         </div>
+        //     </div>';
+        // }
         // require_once 'usuarios.php';     
         // require_once "preguntas.php";
         // $db = new mysqli('localhost', 'root', '', 'cuestionario');

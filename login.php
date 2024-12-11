@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +17,7 @@
             ?>
             <div class="container">
                 <div class="wrapper">
-                    
-                </div>
-            </div>
-            <form action="" method="post" id="registro">
+                <form action="" method="post" id="registro">
                         <h1>login</h1>
                         <div class="input-box">
                             <input type="text" placeholder="Usuario" name="name" require>
@@ -28,6 +25,8 @@
                         </div>
                         <input type="submit" class="btn" name="env" value="Iniciar">
                     </form>
+                </div>
+            </div>
             <?php
         }
     ?>
