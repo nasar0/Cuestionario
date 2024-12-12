@@ -12,7 +12,14 @@
         require_once 'usuarios.php';     
         require_once "preguntas.php";  
         if (isset($_POST["env"])) {
-             header("location:juego.php");
+            $db = new mysqli('localhost', 'root', '', 'cuestionario');
+            $usu= new usuarios($db);
+            $reg=$usu->registro($_POST["usu"]);
+            if ($reg) {
+                header("location:juego.php");
+            }else{
+                
+            }
         }else{
             ?>
             <div class="container">
@@ -20,7 +27,7 @@
                 <form action="" method="post" id="registro">
                         <h1>login</h1>
                         <div class="input-box">
-                            <input type="text" placeholder="Usuario" name="name" require>
+                            <input type="text" placeholder="Usuario" name="usu" require>
                             <i class='bx bx-user'></i>
                         </div>
                         <input type="submit" class="btn" name="env" value="Iniciar">
