@@ -36,6 +36,7 @@
         require_once "preguntas.php";
         $db = new mysqli('localhost', 'root', '', 'cuestionario');
         $pg= new preguntas($db);
+        $us= new usuarios($db);
         $db->set_charset("utf8");
         $arraypreg = $pg->getDatos() ;
         $numpreg = [];
@@ -50,56 +51,32 @@
 
         
 
-
-        if (isset($_POST["env"])) {
-            $cont=$_POST["cont"];
-            if($cont < 5){
-                $pregunta = explode(",", $_POST["pregunta"]);
-                $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
-                
-
-                if ($comprobar == false) {
-                    mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env",$cont);
+       
+            if (isset($_POST["env"])) {
+                $cont=$_POST["cont"];
+                if($cont < 4){
+                    $pregunta = explode(",", $_POST["pregunta"]);
+                    $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
+                    
+                    
+                    if ($comprobar == false) {
+                        mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env",$cont);
+                    }else{
+                        $cont++;
+                        mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
+                    }
                 }else{
-                    $cont++;
-                    mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
+                    $usuario=$_GET["user"];
+                    if ($us->tiempofin($usuario)) {
+                        header("location:ranking.php");
+                    }
+                    
                 }
-            }else{
-
+            } else {
+                mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
             }
-
             
-        } else {
-            mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
-        }
-        /*
-        $cont++;
-        if (isset($_POST["env2"])) {
-            $pregunta = explode(",", $_POST["pregunta"]);
-            $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
-
-            if ($comprobar == false) {
-                mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env2",$cont);
-            }
-        } else {
-            
-            mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env2",$cont);
-           
-        }
-        $cont++;
-        if (isset($_POST["env3"])) {
-            $pregunta = explode(",", $_POST["pregunta"]);
-            $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
-
-            if ($comprobar == false) {
-                mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env3",$cont);
-            }
-        } else {
-            
-            mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env3",$cont);
-            
-        }
-        $cont++;*/
+        
        
 
 

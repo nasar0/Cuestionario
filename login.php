@@ -14,11 +14,9 @@
         if (isset($_POST["env"])) {
             $db = new mysqli('localhost', 'root', '', 'cuestionario');
             $usu= new usuarios($db);
-            $reg=$usu->registro($_POST["usu"]);
+            $reg=$usu->registro($_POST["usu"],date("Y-m-d H:i:s"));
             if ($reg) {
-                header("location:juego.php");
-            }else{
-                
+                header("location:juego.php?user=".$_POST["usu"]);
             }
         }else{
             ?>
