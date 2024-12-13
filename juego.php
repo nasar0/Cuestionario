@@ -6,21 +6,22 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
+    <style>
+        
+    </style>
 </head>
 <body>
     <?php
-        //explode
-        //implode
-        
-
-         function mostrarFormulario($pregunta, $idPreg, $nombreEnv,$cont) {
+        // Función para mostrar el formulario con la pregunta
+        function mostrarFormulario($pregunta, $idPreg, $nombreEnv, $cont) {
             echo $cont;
             echo '<div class="container">
                     <div class="wrapper">
-                    ' . $cont . '
                         <form action="#" method="post" id="registro">
-                            <label for="respuesta">' . explode(",", $pregunta)[0] . '</label><br>
-                            <input type="text" placeholder="respuesta" name="rsp" >
+                            <h2 for="respuesta">' . explode(",", $pregunta)[0] . '</h2><br>
+                            <div class="input-box"> 
+                                <input type="text" placeholder="respuesta" name="rsp" required> 
+                            </div>
                             <input type="hidden" name="pregunta" value="' . $pregunta . '">
                             <input type="hidden" name="idPreg" value="' . $idPreg . '">
                             <input type="hidden" name="cont" value="' . $cont . '">
@@ -30,18 +31,21 @@
                 </div>';
         }
 
-
-
+        // Cargar clases y establecer conexión DB
         require_once 'usuarios.php';     
         require_once "preguntas.php";
         $db = new mysqli('localhost', 'root', '', 'cuestionario');
-        $pg= new preguntas($db);
-        $us= new usuarios($db);
+        $pg = new preguntas($db);
+        $us = new usuarios($db);
         $db->set_charset("utf8");
-        $arraypreg = $pg->getDatos() ;
+
+        // Obtener preguntas de la base de datos
+        $arraypreg = $pg->getDatos();
         $numpreg = [];
-        $cont=0;
-        $comprobar=false;
+        $cont = 0;
+        $comprobar = false;
+
+        // Generar 5 preguntas aleatorias
         for ($i = 0; $i < 5; $i++) {
             do {
                 $numAleatorio = mt_rand(0, 9);
@@ -49,39 +53,31 @@
             array_push($numpreg, $numAleatorio);
         }
 
-        
+        // Procesar respuesta del formulario
+        if (isset($_POST["env"])) {
+            $cont = $_POST["cont"];
+            if ($cont < 4) {
+                $pregunta = explode(",", $_POST["pregunta"]);
+                $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
 
-       
-            if (isset($_POST["env"])) {
-                $cont=$_POST["cont"];
-                if($cont < 4){
-                    $pregunta = explode(",", $_POST["pregunta"]);
-                    $comprobar = $pg->comprobar($_POST["rsp"], $pregunta[1]);
-                    
-                    
-                    if ($comprobar == false) {
-                        mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env",$cont);
-                    }else{
-                        $cont++;
-                        mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
-                    }
-                }else{
-                    $usuario=$_GET["user"];
-                    if ($us->tiempofin($usuario)) {
-                        header("location:ranking.php");
-                    }
-                    
+                // Comprobar respuesta y mostrar siguiente pregunta
+                if ($comprobar == false) {
+                    mostrarFormulario($_POST["pregunta"], $_POST["idPreg"], "env", $cont);
+                } else {
+                    $cont++;
+                    mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env", $cont);
                 }
             } else {
-                mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env",$cont);
+                // Finalizar el juego y redirigir al ranking
+                $usuario = $_GET["user"];
+                if ($us->tiempofin($usuario)) {
+                    header("location:ranking.php");
+                }
             }
-            
-        
-       
-
-
-        
+        } else {
+            // Mostrar primera pregunta
+            mostrarFormulario($arraypreg[$numpreg[$cont]], $numpreg[$cont], "env", $cont);
+        }
     ?>
-    
 </body>
 </html>
