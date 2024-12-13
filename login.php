@@ -25,7 +25,7 @@
                 <form action="" method="post" id="registro">
                         <h1>login</h1>
                         <div class="input-box">
-                            <input type="text" placeholder="Usuario" name="usu" require>
+                            <input type="text" placeholder="Usuario" name="usu" required>
                             <i class='bx bx-user'></i>
                         </div>
                         <input type="submit" class="btn" name="env" value="Iniciar">

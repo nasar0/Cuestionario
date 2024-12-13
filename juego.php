@@ -20,7 +20,7 @@
                     ' . $cont . '
                         <form action="#" method="post" id="registro">
                             <label for="respuesta">' . explode(",", $pregunta)[0] . '</label><br>
-                            <input type="text" placeholder="respuesta" name="rsp">
+                            <input type="text" placeholder="respuesta" name="rsp" >
                             <input type="hidden" name="pregunta" value="' . $pregunta . '">
                             <input type="hidden" name="idPreg" value="' . $idPreg . '">
                             <input type="hidden" name="cont" value="' . $cont . '">

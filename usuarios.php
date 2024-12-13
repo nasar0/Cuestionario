@@ -42,30 +42,17 @@
             }
         }
         public function elo(){
-            $sentencia = "SELECT *, tiempo_final - tiempo_inicio AS tiempo FROM usuario WHERE tiempo_final IS NOT NULL ORDER BY tiempo ASC";
+            $sentencia = "SELECT user, tiempo_final - tiempo_inicio AS tiempo FROM usuario WHERE tiempo_final IS NOT NULL ORDER BY tiempo ASC";
             $consulta = $this->db->prepare($sentencia);
             $cont = 0;
-
+            $consulta->bind_result($nombre,$tiempo);
             if ($consulta->execute()) {
                 $elo = [];
-                while ($fila = $consulta->fetch()) {
-                    $elo[] = $fila;  
+                while ($consulta->fetch()) {
+                    $elo["$nombre"] = $tiempo ;  
                 }
             }
-
-            echo "<table>";
-            echo "<tr><td>Numero</td><td>usuario</td><td>Tiempo</td></tr>";
-
-            foreach ($elo as $value => $v) {
-                echo "<tr>";
-                echo "<td>". $value ."</td>";  
-                echo "<td>". $v ."</td>";   
-                echo "<td>". $value ."</td>";  
-                echo "</tr>";
-            }
-
-            echo "</table>";
-
+            return $elo;
         }
         
 
